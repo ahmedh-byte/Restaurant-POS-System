@@ -18,6 +18,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 
 export default function SideMenu() {
+    const [activetab,setActivetab]=useState(0);
     const navigate=useNavigate();
     const [links]=useState([
         {
@@ -62,7 +63,7 @@ export default function SideMenu() {
             {
                     links.map((ele,index)=>{
                     return(
-                                <Link to={ele.path}  key={ele.id} className={`col-12 d-flex gap-2 align-items-center nav-link  ${styles.link}`}>
+                                <Link onClick={()=>setActivetab(index)} to={ele.path}  key={ele.id} className={`col-12 d-flex gap-2 align-items-center nav-link  ${styles.link}  ${activetab==index && styles.activelinks}` }>
                             
                                     {ele.icon}
                                     <p className="m-0">{ele.Name}</p>

@@ -1,6 +1,6 @@
 #SideMenu{
     height: 100vh; 
-    width: 250px;
+    min-width: 250px;
     border-right: 1px solid var(--maingray);
     padding-left: 16px;
     padding-right: 16px;
@@ -33,6 +33,7 @@
         padding: 12px;
         transition:ease-in-out 400ms;
         background-color: var(--mainyellow);
+        border-radius: 16px;
     }
   
    

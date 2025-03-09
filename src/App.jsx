@@ -7,16 +7,14 @@ import Dashboard from "./Pages/Dashboard/Dashboard";
 import SideMenu from "./components/SideMenu/SideMenu";
 import { useEffect, useState } from "react";
 import Category from "./Pages/CategoryPage/Category";
+import Categories from "./Pages/Categories/Categories";
+import { useCategoriesData } from "./Store";
 
 
 export default function App() {
-  const [categories,setCategories]=useState([
-    {name:"Cold Drinks", path:"cold" },
-    {name:"Burgers", path:"burger" },
-    {name:"pizza", path:"pizza"},
-    {name:"Wok", path:"wok" ,},
-    {name:"pasta", path:"pasta" ,},
-])
+ 
+ const {data : categories}=useCategoriesData();
+
 let catsRoutes=categories.map((el)=>{return "/orders/"+el.path })
   // accptance routes to see side menu in it 
   let acceptroutes=["/orders","/settings","/bills","/",...catsRoutes]
@@ -38,7 +36,7 @@ let catsRoutes=categories.map((el)=>{return "/orders/"+el.path })
         {(acceptroutes.includes(path) ) &&  <SideMenu/>}
         <Routes>
           <Route path="/" element={<Dashboard/>}></Route>
-          <Route path="/orders" element={<h1>orders</h1>}></Route>
+          <Route path="/orders" element={<Categories/>}></Route>
           <Route path="/orders/:catname" element={<Category/>}></Route>
           <Route path="/settings" element={<h1> settings</h1>}></Route>
           <Route path="/bills" element={<h1>bills</h1>}></Route>

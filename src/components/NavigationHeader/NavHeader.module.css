@@ -1,0 +1,11 @@
+.BackBtn{
+    background-color: var(--maingray);
+    font-size: 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: ease all 400ms;
+    &:hover{
+        background-color: var(--mainyellow);
+    }
+
+}

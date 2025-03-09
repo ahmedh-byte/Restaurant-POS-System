@@ -1,34 +1,42 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import catimg from  "../../assets/imgs/Categories/pizza.jpeg"
+
+
+import styles from './Category.module.css'
+import NavHeadr from "../../components/NavigationHeader/NavHeadr";
+import { useCategoriesData } from "../../Store";
+
 
 export default function Category() {
 
-    const params =useParams();
+ 
     const navigat=useNavigate();
     const [check,setCheck]=useState(false);
-    const [categories,setCategories]=useState([
-        {name:"Cold Drinks", path:"cold" ,image:{catimg}},
-        {name:"Burgers", path:"burger" ,image:{catimg}},
-        {name:"pizza", path:"pizza" ,image:{catimg}},
-        {name:"Wok", path:"wok" ,image:{catimg}},
-        {name:"pasta", path:"pasta" ,image:{catimg}},
-])
+    const [categoryinfo,setGategoryinfo]=useState({});
+   
+const {data:categories,resetActiveId,active_cat_id}=useCategoriesData();
     useEffect(()=>{
 
-    let routes=["burger","pasta","pizza"];
-    let myobj=categories.find((el)=>{return el.name=="pizza"})  
-    console.log(myobj) ;
-    let obj=categories.find((el)=>{return el.path==params.catname})
-    if(obj)
-    {
-        setCheck(true);
-       
+   
+        
+        let obj=categories.find((el)=>{return el.documentid==active_cat_id})
+        if(obj)
+        {
+            setGategoryinfo(obj);
+            setCheck(true);
+           
+    
+        }
+        else{
+            navigat('/error')
+        }
 
-    }
-    else{
-        navigat('/error')
-    }
+    
+    
+   return ()=>{
+    //i will execute after component un mount
+    resetActiveId();
+   };
 
     },[])
 
@@ -37,6 +45,14 @@ export default function Category() {
 
    
   return (
-   check&& <div>Products in {params.catname}</div>
+   check&& <div>
+              
+              
+
+                <NavHeadr tabName={categoryinfo.name}/>
+                <h1>products in category{categoryinfo.name}</h1>
+               
+    
+            </div>
   )
 }
