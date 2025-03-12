@@ -9,15 +9,16 @@ import { useEffect, useState } from "react";
 import Category from "./Pages/CategoryPage/Category";
 import Categories from "./Pages/Categories/Categories";
 import { useCategoriesData } from "./Store";
+import axios from "axios";
 
 
 export default function App() {
  
- const {data : categories}=useCategoriesData();
+ const {domain,data : categories,setData}=useCategoriesData();
 
 let catsRoutes=categories.map((el)=>{return "/orders/"+el.path })
   // accptance routes to see side menu in it 
-  let acceptroutes=["/orders","/settings","/bills","/",...catsRoutes]
+  const [acceptroutes,setacceptroutes]=useState(["/orders","/settings","/bills","/"])
   // let url=window.location.href;
   // let path=url.split('/')[3];
   // console.log(path);
@@ -26,6 +27,21 @@ let catsRoutes=categories.map((el)=>{return "/orders/"+el.path })
   useEffect(()=>{
     setpath(location.pathname)
   },[location.pathname])
+  useEffect(()=>{
+    console.log('data fetched')
+    let url=domain+"/api/categories"
+    axios.get(url,{params:{populate:"*"}}).then((res)=>{
+      let cats=res.data.data;
+      console.log(cats)
+      let routes=cats.map(el=> '/orders/'+el.documentId);
+      setacceptroutes([...acceptroutes,...routes]);
+      setData(cats);
+
+     })
+
+
+
+  },[])
   
 
   return (
@@ -37,7 +53,7 @@ let catsRoutes=categories.map((el)=>{return "/orders/"+el.path })
         <Routes>
           <Route path="/" element={<Dashboard/>}></Route>
           <Route path="/orders" element={<Categories/>}></Route>
-          <Route path="/orders/:catname" element={<Category/>}></Route>
+          <Route path="/orders/:id" element={<Category/>}></Route>
           <Route path="/settings" element={<h1> settings</h1>}></Route>
           <Route path="/bills" element={<h1>bills</h1>}></Route>
           <Route path="/login" element={<h1>login</h1>}></Route>
@@ -50,3 +66,5 @@ let catsRoutes=categories.map((el)=>{return "/orders/"+el.path })
     </div>
   )
 }
+//categories
+//categories-products

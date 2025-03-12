@@ -7,12 +7,14 @@ import desserts from "../assets/imgs/Categories/desserts.jpg"
 import wok from "../assets/imgs/Categories/wok.jpg"
 import pizza from "../assets/imgs/Categories/pizza.jpg"
 import burger from "../assets/imgs/Categories/burger.jpg"
+import { data } from "react-router-dom";
 
 
 //initate state
  export const useCategoriesData=create((set)=>(
     //return state as object
 {
+    domain:"http://localhost:1337",
     //value
   data:[
        {documentid:1,name:"Cold Drinks", path:"cold" ,imgUrl:cola},
@@ -22,6 +24,9 @@ import burger from "../assets/imgs/Categories/burger.jpg"
        {documentid:5,name:"deserts", path:"dessert",imgUrl:pizza},
        {documentid:6,name:"pasta", path:"pasta" ,imgUrl:burger},
    ],
+   setData:(categories)=>(set(()=>({
+    data:categories,
+   }))),
     //actions
     active_cat_id:0,
     setActiveid:(activeTab)=>(set(()=>({active_cat_id:activeTab}))),
