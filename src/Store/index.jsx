@@ -36,4 +36,59 @@ import { data } from "react-router-dom";
 }
 
 ))
+export const useCart=create((set)=>({
+
+    cartIndex:false,
+    productInCart:[],
+    checkOutIndex:false,
+    openCheckOut:()=>(set(()=>({checkOutIndex:true}))),
+    closeCheckOut:()=>(set(()=>({checkOutIndex:false}))),
+
+
+
+    openCart:()=>(set(()=>({cartIndex:true}))),
+    closeCart:()=>(set(()=>({cartIndex:false}))),
+
+
+    decrementQty:(documentId) =>(set((state)=>{
+         let copyArray=[...state.productInCart];
+         let index=copyArray.findIndex(el=> el.documentId==documentId);
+         if( copyArray[index].qty>1){
+            copyArray[index].qty--;
+         }
+         else{
+            copyArray.splice(index,1)
+         }
+        
+        //new object state value
+        return{ productInCart:copyArray}
+    
+    })),
+    incrementQty:(documentId) =>(set((state)=>{
+        let copyArray=[...state.productInCart];
+        let index=copyArray.findIndex(el=> el.documentId==documentId);
+        copyArray[index].qty++;
+       
+       
+       //new object state value
+       return{ productInCart:copyArray}
+   
+   })),
+   addToCart:(product)=>(set((state)=>{
+    let copy=[...state.productInCart];
+    let obj=copy.find(el=>el.documentId==product.documentId)
+    if(obj){
+        state.incrementQty(product.documentId);
+    }
+    else{
+        copy.push(product)
+       // let copy=[...state.productInCart,product];
+    }
+    
+
+     return{ productInCart:copy}
+
+   })),
+   resetCart:()=>(set(()=>({productInCart:[]}))),
+}));
 

@@ -1,13 +1,15 @@
 import NavHeadr from "../../components/NavigationHeader/NavHeadr"
 import styles from "./Categories.module.css"
-import {useCategoriesData} from "../../Store/index.jsx"
+import {useCart, useCategoriesData} from "../../Store/index.jsx"
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import SideCart from "../../components/SideCart/SideCart.jsx";
  
 export default function Categories() {
-    const domain="http://localhost:1337"
-    const {data:appCategories ,setActiveid,}=useCategoriesData();
+
+   const{cartIndex}=useCart();
+    const {data:appCategories ,setActiveid,domain}=useCategoriesData();
     //const[appCategories,setappCategories]=useState([]);
     const navigate=useNavigate();
     const handelclick =(path)=>{
@@ -18,31 +20,12 @@ export default function Categories() {
         navigate(documentId)
 
     }
-    // const getData=()=>{
-       
-       
-    //     let endPoint="/api/categories"
-    //     let Url=domain+endPoint;
-    //     axios.get(Url,{
-    //          // query parameter to get image
-    //       params:{
-    //         populate:"*",
-    //       }
-
-    //     }).then((res)=>{
-    //         setappCategories(res.data.data);
-    //     })
-        
-
-    // }
-    useEffect(()=>{
-        // getData();
-
-    } ,[])
+ 
    
   return (
   
     <div className={`categoriespage ${styles.categoriespage}`}>
+     
          <NavHeadr tabName={"Categories"}/>
          <div className="d-flex flex-wrap col-12 ">
             {

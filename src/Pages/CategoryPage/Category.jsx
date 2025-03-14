@@ -24,7 +24,14 @@ const {data:categories,resetActiveId,active_cat_id,domain}=useCategoriesData();
         let endPoint=`/api/categories/${documentId}`
         let Url=domain+endPoint;
       
-        axios.get(Url,{params:{populate:"*"}}).then((res)=>{
+        axios.get(Url,{params:
+            {populate:{
+               products:{
+                 populate:"*"
+               }
+            }
+
+            }}).then((res)=>{
             console.log(res.data.data)
             setGategoryinfo(res.data.data);
             setCheck(true);
@@ -35,17 +42,7 @@ const {data:categories,resetActiveId,active_cat_id,domain}=useCategoriesData();
 
    
         
-//         let obj=categories.find((el)=>{return el.documentid==active_cat_id})
-//         if(obj)
-//         {
-//             setGategoryinfo(obj);
-//             setCheck(true);
-           
-    
-//         }
-//         else{
-//             navigat('/error')
-//         }
+
 
     
     
@@ -61,7 +58,7 @@ const {data:categories,resetActiveId,active_cat_id,domain}=useCategoriesData();
 
    
   return (
-   check&& <div className="flex-grow-1">
+   check&& <div className="flex-grow-1 ">
               
               
 
@@ -71,7 +68,14 @@ const {data:categories,resetActiveId,active_cat_id,domain}=useCategoriesData();
                   {
                    categoryinfo.products&& categoryinfo.products.map((el,index)=>{
                         return(
-                            <ProductCard key={el.documentId}/>
+                            <ProductCard
+                             key={el.documentId}
+                              name={el.product_name}
+                               price={el.product_price} 
+                               imgUrl={domain+el.product_img.url}
+                               product={el}
+
+                              />
                         )
 
                     })

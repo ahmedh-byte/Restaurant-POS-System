@@ -8,8 +8,10 @@ import SideMenu from "./components/SideMenu/SideMenu";
 import { useEffect, useState } from "react";
 import Category from "./Pages/CategoryPage/Category";
 import Categories from "./Pages/Categories/Categories";
-import { useCategoriesData } from "./Store";
+import { useCart, useCategoriesData } from "./Store";
 import axios from "axios";
+import Swal from "sweetalert2";
+import SideCart from "./components/SideCart/SideCart";
 
 
 export default function App() {
@@ -19,9 +21,7 @@ export default function App() {
 let catsRoutes=categories.map((el)=>{return "/orders/"+el.path })
   // accptance routes to see side menu in it 
   const [acceptroutes,setacceptroutes]=useState(["/orders","/settings","/bills","/"])
-  // let url=window.location.href;
-  // let path=url.split('/')[3];
-  // console.log(path);
+  const{cartIndex}=useCart();
   const location=useLocation();
   const[path,setpath]=useState();
   useEffect(()=>{
@@ -32,11 +32,20 @@ let catsRoutes=categories.map((el)=>{return "/orders/"+el.path })
     let url=domain+"/api/categories"
     axios.get(url,{params:{populate:"*"}}).then((res)=>{
       let cats=res.data.data;
-      console.log(cats)
+      
       let routes=cats.map(el=> '/orders/'+el.documentId);
       setacceptroutes([...acceptroutes,...routes]);
       setData(cats);
 
+     }).catch((err)=>{
+      if(err.code=="ERR_NETWORK"){
+        Swal.fire({
+          icon:"error",
+          title:"NETWORK ERROR"
+        })
+        
+      }
+      console.log(err.code);
      })
 
 
@@ -48,6 +57,7 @@ let catsRoutes=categories.map((el)=>{return "/orders/"+el.path })
     <div className="App col-12 d-flex flex-row">
 
         {/* conditional renderiing */}
+         {cartIndex&&  <SideCart/>}
        
         {(acceptroutes.includes(path) ) &&  <SideMenu/>}
         <Routes>
