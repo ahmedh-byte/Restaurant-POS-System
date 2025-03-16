@@ -33,9 +33,9 @@ export default function SideMenu() {
               path:"/orders"
         },
         {icon:<TbReportMoney /> ,
-            Name:"bills",
+            Name:"invoices",
             id:3,
-             path:"/bills"
+             path:"/invoices"
         },
         {icon:<IoSettingsOutline />,
             Name:"Settings",

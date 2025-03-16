@@ -12,6 +12,7 @@ import { useCart, useCategoriesData } from "./Store";
 import axios from "axios";
 import Swal from "sweetalert2";
 import SideCart from "./components/SideCart/SideCart";
+import Invoices from "./Pages/Invoices/Invoices";
 
 
 export default function App() {
@@ -20,7 +21,7 @@ export default function App() {
 
 let catsRoutes=categories.map((el)=>{return "/orders/"+el.path })
   // accptance routes to see side menu in it 
-  const [acceptroutes,setacceptroutes]=useState(["/orders","/settings","/bills","/"])
+  const [acceptroutes,setacceptroutes]=useState(["/orders","/settings","/invoices","/"])
   const{cartIndex}=useCart();
   const location=useLocation();
   const[path,setpath]=useState();
@@ -65,7 +66,7 @@ let catsRoutes=categories.map((el)=>{return "/orders/"+el.path })
           <Route path="/orders" element={<Categories/>}></Route>
           <Route path="/orders/:id" element={<Category/>}></Route>
           <Route path="/settings" element={<h1> settings</h1>}></Route>
-          <Route path="/bills" element={<h1>bills</h1>}></Route>
+          <Route path="/invoices" element={<Invoices/>}></Route>
           <Route path="/login" element={<h1>login</h1>}></Route>
           <Route path="/register" element={<h1>register</h1>}></Route>
           <Route path="*" element={<h1>error404</h1>}></Route>
